@@ -1,0 +1,15 @@
+<div class="container mb-3 border border-3">
+    <p *ngFor="let item of userDatas">{{item.login}} -- {{item.password}}</p>
+</div>
+<div class="container">
+    <div class="row">
+
+        <input class="col-3" type="text" [(ngModel)]="login">
+        <input class="col-3 ms-3" type="text" [(ngModel)]="password">
+    </div>
+    <div class="row mt-3">
+        <p>{{login}} -- {{password}}</p>
+    </div>
+    <!-- <div class="btn btn-primary mt-3" (click)="addItem_rtdb()">Add to addItem_rtdb</div> -->
+    <div class="btn btn-primary mt-3 ms-3" (click)="addItem_afs()">Add to addItem_afs</div>
+</div>
