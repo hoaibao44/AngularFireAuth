@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-main-auth',
@@ -10,19 +9,28 @@ import firebase from 'firebase/compat/app';
 })
 export class MainAuthComponent {
 
-  constructor(public auth: AngularFireAuth) {
+  constructor(public authService: AuthService) {
   }
 
   login_google() {
-    this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    // this.authService.AuthLogin(this.authService.GoogleAuth());
+    this.authService.GoogleAuth();
+  }
+  login_fb() {
+    // this.authService.AuthLogin(this.authService.GoogleAuth());
+    this.authService.FBAuth();
   }
 
   login_id(form:NgForm) {
-    this.auth.signInWithEmailAndPassword(form.value.email,form.value.password);
+    this.authService.afAuth.signInWithEmailAndPassword(form.value.email,form.value.password);
   }
 
   logout() {
-    this.auth.signOut();
+    this.authService.SignOut();
   }
 
+  reset_pass(form:NgForm){
+    console.log('reset pass',form.value.email)
+    this.authService.afAuth.sendPasswordResetEmail(form.value.email)
+  }
 }

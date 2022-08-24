@@ -3,7 +3,7 @@
     <!-- Container wrapper -->
     <div class="container">
         <!-- Navbar brand -->
-        <a class="navbar-brand" href="#">Brand</a>
+        <a class="navbar-brand" href="#">Stormie</a>
 
         <!-- Toggle button -->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -16,18 +16,23 @@
             <!-- Left links -->
             <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" [routerLink]="'login'">Login</a>
+                    <a class="nav-link" aria-current="page" [routerLink]="'sign-in'"
+                        routerLinkActive="route-active">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" [routerLink]="'rtdb'">RealtimeDB</a>
+                    <a class="nav-link" aria-current="page" [routerLink]="'rtdb'"
+                        routerLinkActive="route-active">RealtimeDB</a>
                 </li>
             </ul>
             <!-- Left links -->
 
         </div>
+
         <!-- Collapsible wrapper -->
         <div class="container" *ngIf="auth.user | async as user">
-            {{user.displayName ? user.displayName : user.email}}
+            <div class="float-end">
+                {{user.displayName ? user.displayName : user.email}}
+            </div>
         </div>
     </div>
     <!-- Container wrapper -->

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { AngularFireDatabase } from '@angular/fire/compat/database';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 
@@ -12,30 +13,33 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class RtdbComponent implements OnInit,OnDestroy {
   userDatas:any[] = [];
-  // item$: Observable<any[]>;
   itemSub?:Subscription
 
-  login:string = ''
+  login:string | null = '' 
   password:string = ''
 
-  itemsCollection: AngularFirestoreCollection<any>;
-  items: Observable<any[]>
+  items: Observable<any>
 
 
   constructor(
     private afs: AngularFirestore,
     private db: AngularFireDatabase, // this is the rtdbN
+    public auth: AngularFireAuth
     ) {
-    // const myCollection = collection(firestore, 'users');
-    // this.item$ = collectionData(myCollection);
+    
+    this.auth.user.subscribe(
+      data => data ? this.login = data.displayName : this.login = 'Anonymous'
+    )
 
-    this.itemsCollection = afs.collection<any>('users');
-    this.items = this.itemsCollection.valueChanges();
+    this.items = this.afs.collection('users').valueChanges();
   }
   
   ngOnInit(): void {
     this.itemSub =  this.items.subscribe(
-      data => this.userDatas = data
+      data => {
+        this.userDatas = data,
+        console.log(data)
+      }
     )
   }
 
@@ -47,7 +51,7 @@ export class RtdbComponent implements OnInit,OnDestroy {
   }
 
   addItem_afs() {
-    this.itemsCollection.add({ login: this.login, password:this.password});
+    this.afs.collection('users').add({ login: this.login ,password:this.password})
   }
 
   ngOnDestroy(): void {
